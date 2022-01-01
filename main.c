@@ -33,8 +33,13 @@ int main() {
         strcat(project, row);
     }
 
-    // Imprime tudo
-    puts(project);
-    
+    // Salva tudo em arquivo
+    FILE *outputFile = fopen("output.txt", "a+");
+    if(outputFile != NULL) {
+        fputs(project, outputFile);
+        fclose(outputFile);
+    }
+
+
     return 0;
 }
