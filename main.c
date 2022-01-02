@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <stdbool.h>
+
 int main() {
 
 
@@ -16,15 +18,27 @@ int main() {
     fgets(action, sizeof action, stdin);
     strtok(action, "\n"); // fgets adiciona um \n na string lida. Aqui eu retiro isso
 
+    // Vê se serão utlizados metadados
+    bool metadata;
+    char mData[2];
+    printf("Parallel? (y/n) "); 
+    fgets(mData, sizeof mData, stdin);
+    if (mData[0] == 'n' || mData[0] == 'N') {
+        metadata = false;
+    }
+
     // Lê o número de dias
     int numberOfDays;
     printf("Number of days: ");
-    scanf("%d", &numberOfDays);    
-
+    scanf("%d", &numberOfDays);
+    
 
     // Monta o projeto no formato taskpaper
     char project[4096]; //valor arbitrário, duvido que algum dos meus projetos seja maior que isso
     strcpy(project, projectName);
+    if(!metadata) {
+        strcat(project, " @parallel(false)");
+    }
     strcat(project, "\n");
     
     for (int i = 1; i <= numberOfDays; i++) {
