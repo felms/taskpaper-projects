@@ -3,8 +3,28 @@
 
 #include <stdbool.h>
 
+void daysOfX(char* project, size_t bufferSize);
+
 int main() {
 
+
+    char project[4096]; //valor arbitrário, duvido que algum dos meus projetos seja maior que isso
+
+    daysOfX(project, sizeof project);
+    
+    // Salva tudo em arquivo
+    FILE *outputFile = fopen("output.txt", "a+");
+    if(outputFile != NULL) {
+        fputs(project, outputFile);
+        fclose(outputFile);
+    }
+
+    return 0;
+}
+
+
+// Cria um projeto de um tipo de ação repetida por vários dias.
+void daysOfX(char* project, size_t bufferSize) {
 
     // Lê o nome do projeto
     char projectName[256];
@@ -34,7 +54,6 @@ int main() {
     
 
     // Monta o projeto no formato taskpaper
-    char project[4096]; //valor arbitrário, duvido que algum dos meus projetos seja maior que isso
     strcpy(project, projectName);
     if(!metadata) {
         strcat(project, " @parallel(false)");
@@ -47,13 +66,6 @@ int main() {
         strcat(project, row);
     }
 
-    // Salva tudo em arquivo
-    FILE *outputFile = fopen("output.txt", "a+");
-    if(outputFile != NULL) {
-        fputs(project, outputFile);
-        fclose(outputFile);
-    }
+    project[bufferSize - 1] = '\0'; // Caracter de término
 
-
-    return 0;
 }
